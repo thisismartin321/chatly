@@ -1,185 +1,148 @@
-# Chatly
+# 💬 Chatly
 
-Discord-like Chat Platform with End-to-End Encryption
+**Discord-like Chat Platform with End-to-End Encryption**
 
-## Overview
+Chatly is a secure, real-time chat platform featuring multi-server support, voice channels, file sharing, end-to-end encryption, and cross-platform desktop and mobile applications.
 
-Chatly is a comprehensive Discord-inspired chat platform featuring end-to-end encryption, multi-server system, language channels, secure file uploads, and advanced collaboration tools. This project is built with Node.js and Socket.IO, providing a secure and feature-rich messaging experience.
+---
 
-Chatly supports **over 13 languages** automatically detected from client IP addresses, matching Discord's multi-language approach. The platform includes both web-based and native applications (desktop and mobile) with seamless synchronization.
+## 🚀 Features
 
-## Key Features
+### Core Communication
+- ✅ Real-time messaging with WebSocket
+- ✅ End-to-end encryption for all messages and files
+- ✅ Multi-server system with invitation codes
+- ✅ Direct messages between users
+- ✅ Message history and search
 
-### Core Chat Features
-- **End-to-End Encryption**: All messages and files are encrypted for privacy
-- **Multi-Server System**: Create and manage multiple servers with unique invitation codes
-- **Language Channels**: IP-based language detection and channel categorization
-- **Real-time Messaging**: WebSocket-powered instant messaging
-- **Direct Messages**: Private one-on-one conversations
-- **File Uploads**: Secure encrypted file sharing
+### Voice & Media
+- ✅ Voice channels with mute/deafen controls
+- ✅ File uploads (images, videos, documents)
+- ✅ Media previews
+- ✅ Soundboard for custom sounds
 
-### Discord-like Features
-- **Roles & Permissions**: Granular server management with customizable roles
-- **Voice Channels**: Built-in voice chat with muting, deafening, and channel management
-- **Soundboard**: Play server sounds and custom audio clips
-- **Events & Streams**: Server events and live streaming support
-- **Emojis & GIFs**: Comprehensive emoji and GIF integration with preview
-- **User Management**: Friends, blocks, and friend requests
+### Social Features
+- ✅ Friends system with requests and blocks
+- ✅ User profiles and status
+- ✅ Server roles and permissions
+- ✅ Server events
 
-### Advanced Features
-- **Screen Sharing**: Stream desktop content to voice channels
-- **Server Settings**: Customization options for each server
-- **Media Previews**: Automatic preview generation for images and videos
-- **Mobile Support**: iOS and Android apps (React Native)
-- **Desktop Apps**: Native Windows/Linux applications (Electron)
-- **CI/CD Integration**: GitHub Actions for automated testing and deployment
+### Cross-Platform Apps
+- 🖥️ **Desktop**: Windows (.exe installer), Linux (.deb, .rpm, .AppImage)
+- 📱 **Mobile**: Android (.apk via Cordova)
+- 🌐 **Web**: Progressive Web App
 
-### Discord Apps Integration
-Chatly supports **native Discord-style applications** that can be installed directly:
+### Security
+- ✅ End-to-end encryption (AES-256)
+- ✅ JWT authentication
+- ✅ Rate limiting
+- ✅ Input validation and sanitization
+- ✅ Secure session management
 
-#### Desktop Applications
-- **Windows & Linux**: Electron-based desktop client
-- **macOS**: Available for Mac users
-- **Features**:
-  - System tray integration
-  - Native notifications
-  - Auto-updates
-  - Cross-platform consistency
+---
 
-#### Mobile Applications
-- **Android**: React Native with material design
-- **iOS**: React Native with native feel
-- **Features**:
-  - Push notifications
-  - Background syncing
-  - Offline message support
-  - Biometrics authentication
+## 📋 Installation
 
-#### Desktop App Features
-- **System integration**: Window management, taskbar integration
-- **File handling**: Native file picker, drag & drop
-- **Theme support**: System theme detection and custom themes
-- **Privacy controls**: Permission management
-- **Developer tools**: Built-in debugging tools
+### Development
 
-#### Mobile App Features
-- **Camera & microphone**: Native media capture
-- **Storage**: Local storage with sync
-- **Background tasks**: Message handling in background
-- **Notifications**: Local and push notifications
-- **Battery optimization**: Efficient power usage
-
-## Architecture
-
-### Backend
-- **Node.js**: Server-side JavaScript runtime
-- **Socket.IO**: Real-time bidirectional communication
-- **SQLite**: Local database with encryption support
-- **Express**: Web framework for API endpoints
-
-### Frontend
-- **React**: Component-based user interface
-- **TypeScript**: Type safety and better development experience
-- **WebSocket**: Real-time communication client
-
-### Mobile & Desktop
-- **React Native**: Cross-platform mobile applications
-- **Electron**: Desktop application framework
-
-## Quick Setup
-
-### Prerequisites
-- **Node.js 18.x or higher**
-- **Network access** (for WebRTC and API calls)
-- **Database storage** (SQLite)
-- **Modern web browser** (Chrome, Firefox, Safari, Edge)
-
-### Installation Steps
-
-1. **Clone the repository**:
 ```bash
-git clone https://github.com/chatly/chatly.git
-
-# Navigate to the project directory
+# Clone the repository
+git clone <repository-url>
 cd chatly
-```
 
-2. **Install dependencies**:
-```bash
-# Install all project dependencies
+# Install dependencies
 npm install
 
-# For faster installation (if available)
-npm ci
-```
-
-3. **Environment variables**:
-Create a `.env` file in the project root directory:
-```env
-PORT=3000
-NODE_ENV=development
-SESSION_SECRET=your-32+character-session-secret
-INVITE_CODE=your-8+character-invite-code
-ENCRYPTION_KEY=your-32+character-encryption-key
-ENCRYPTION_IV=your-16+character-encryption-iv
-```
-
-4. **Run the server**:
-```bash
-# Start in development mode with hot reload
+# Start development server
 npm run dev
 
-# Start in production mode
-npm start
+# Open http://localhost:5173
 ```
 
-5. **Access the application**:
-```
-http://localhost:3000
-```
-
-## Multi-language Support
-
-Chatly automatically detects the user's preferred language based on their IP address and browser settings:
-
-- **English** (default)
-- **German** (de)
-- **Spanish** (es)
-- **French** (fr)
-- **Italian** (it)
-- **Portuguese** (pt)
-- **Russian** (ru)
-- **Chinese** (zh)
-- **Japanese** (ja)
-- **Korean** (ko)
-- **Arabic** (ar)
-- **Hindi** (hi)
-- **Chinese (Simplified)** (cn)
-
-All translations are included in the `locales/` directory and are automatically loaded based on the user's location.
-
-## Docker Deployment
-
-### Quick Docker Setup
+### Production (Web)
 
 ```bash
-# Build the Docker image
-docker build -t chatly .
+# Build for production
+npm run build
 
-# Run the application
-# Create .env file with your environment variables
-docker run -p 3000:3000 --env-file .env chatly
+# Serve with nginx or any static file server
+# The dist/ folder contains the built application
+```
+
+---
+
+## 🖥️ Desktop Applications
+
+### Windows (.exe Installer)
+
+```bash
+# Build Windows executable
+npm run exe
+
+# Output: release/Chatly Setup x64.exe
+# Output: release/Chatly Setup ia32.exe
+```
+
+### Linux (.deb, .rpm, .AppImage)
+
+```bash
+# Build Debian package
+npm run deb
+
+# Build RedHat package
+npm run rpm
+
+# Build AppImage
+npm run appimage
+
+# Output: release/ directory
+```
+
+---
+
+## 📱 Mobile Applications
+
+### Android (.apk)
+
+```bash
+# Install Cordova
+npm install -g cordova
+
+# Add Android platform
+cordova platform add android
+
+# Build release APK
+cordova build android --release
+
+# Output: platforms/android/app/build/outputs/apk/release/app-release.apk
+```
+
+---
+
+## 🐳 Docker Deployment
+
+### Server
+
+```bash
+# Build Docker image
+docker build -t chatly-server .
+
+# Run the server
+docker run -p 3000:3000 \
+  -e SESSION_SECRET=your-secret \
+  -e INVITE_CODE=your-invite-code \
+  -e ENCRYPTION_KEY=your-32-char-key \
+  -e ENCRYPTION_IV=your-16-char-iv \
+  chatly-server
 ```
 
 ### Docker Compose
-
-Create a `docker-compose.yml` file:
 
 ```yaml
 version: '3.8'
 
 services:
-  chatly:
+  chatly-server:
     build: .
     ports:
       - "3000:3000"
@@ -187,180 +150,100 @@ services:
       - NODE_ENV=production
       - SESSION_SECRET=${SESSION_SECRET}
       - INVITE_CODE=${INVITE_CODE}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - ENCRYPTION_IV=${ENCRYPTION_IV}
     volumes:
       - ./data:/app/data
-      - ./sounds:/app/public/sounds
+      - ./encrypted_files:/app/encrypted_files
     restart: unless-stopped
 ```
 
-```bash
-# Start with Docker Compose
-docker-compose up -d
+---
 
-# Stop the application
-docker-compose down
+## 🔧 Project Structure
+
 ```
-
-### Production Deployment
-
-```bash
-# Install PM2
-npm install -g pm2
-
-# Start the application with PM2
-pm2 start src/server.js --name chatly
-
-# View logs
-pm2 logs chatly
-
-# Restart the application
-pm2 restart chatly
-
-# Stop the application
-pm2 stop chatly
+chatly/
+├── src/
+│   ├── main.js              # Entry point
+│   ├── App.vue              # Root component
+│   ├── router/              # Vue Router
+│   ├── store/               # Pinia state management
+│   ├── services/            # API services
+│   ├── utils/               # Utilities (encryption)
+│   ├── components/          # Vue components
+│   ├── views/               # Page views
+│   ├── assets/              # Styles and assets
+│   └── locales/             # i18n translations
+│       ├── en.json          # English
+│       └── de.json          # German
+├── src-electron/            # Electron desktop app
+│   ├── main.js              # Electron main process
+│   └── preload.js           # Preload script
+├── public/                  # Public assets
+├── config.xml               # Cordova configuration
+├── tauri.conf.json          # Tauri configuration
+├── Dockerfile               # Server Dockerfile
+├── package.json             # Dependencies and scripts
+├── vite.config.ts           # Vite configuration
+└── README.md                # This file
 ```
-
-## Application Structure
-
-### Desktop Application
-- **Installation**: Windows MSI, Linux AppImage, macOS DMG
-- **Features**: Native UI, system integration, auto-updates
-- **Requirements**: Administrator privileges for installation
-
-### Mobile Application
-- **Platform**: React Native with cross-platform compatibility
-- **Installation**: Google Play Store, Apple App Store
-- **Features**: Push notifications, background sync, offline support
-
-### Web Application
-- **Access**: Direct web browser access
-- **Features**: Progressive Web App (PWA) capabilities
-- **Offline Support**: Cache data for offline usage
-
-## Technical Specifications
-
-### API Endpoints
-- **Authentication**: `/api/register`, `/api/login`, `/api/logout`, `/api/me`
-- **Servers**: `/api/servers`, `/api/servers/{id}`, `/api/servers/join`
-- **Channels**: `/api/servers/{id}/channels`, `/api/servers/{id}/channels/{channelId}/messages`
-- **Messages**: `/api/servers/{id}/channels/{channelId}/messages`
-- **Files**: `/api/servers/{id}/channels/{channelId}/files`
-- **Voice**: `/api/servers/{id}/voice-states`
-- **Users**: `/api/users/{id}/friends`, `/api/users/{id}/block`
-
-### Database Schema
-- **16 tables** with comprehensive relationships
-- **Encrypted storage** for sensitive data
-- **Index optimization** for performance
-- **Foreign key constraints** for data integrity
-
-### Security Features
-- **End-to-end encryption** for all communications
-- **RSA key management** for secure sessions
-- **AES-256-GCM encryption** for file protection
-- **Rate limiting** to prevent abuse
-- **Input validation** and sanitization
-- **HTTPS enforcement** in production
-
-## Testing & Quality Assurance
-
-### Test Suite
-```bash
-# Run the test suite
-npm test
-
-# Lint code
-npm run lint
-
-# Format code
-npm run format
-
-# Type checking
-npm run type-check
-```
-
-### CI/CD Pipeline
-- **GitHub Actions** for automated testing
-- **Code quality checks** with ESLint
-- **Security scanning** for vulnerabilities
-- **Automated deployment** to production
-
-## Development
-
-### Code Quality
-- **ESLint** for code consistency
-- **Prettier** for code formatting
-
-### Running Tests
-```bash
-# Run unit tests
-npm test
-
-# Run integration tests
-npm run test:integration
-
-# Run e2e tests
-npm run test:e2e
-```
-
-### Adding Features
-To add new features:
-
-1. **API Routes**: Add new routes in `src/server.js`
-2. **Database Tables**: Add new tables in the database initialization
-3. **Frontend Components**: Add new components in the frontend directory
-4. **Testing**: Write tests in the test directory
-
-## Support
-
-### Documentation
-- **README.md**: Project overview and setup
-- **INSTALL.md**: Installation guide
-- **API Documentation**: Available in the source code
-
-### Community
-- **GitHub Issues**: Report bugs and request features
-- **Discussions**: Discuss with other users
-- **Contributing Guide**: Help improve the project
-
-### Support Channels
-- **GitHub Issues**: Technical support
-- **Documentation**: Self-service help
-- **Community Forum**: User discussions
-
-## Legal and License
-
-### License
-This project is licensed under the MIT License.
-
-### Copyright
-Copyright © 2024 Chatly Team
-
-### Attribution
-- Built with ❤️ for the open-source community
-- Inspired by Discord's feature set
-- Thanks to all contributors
-
-## Acknowledgements
-
-We would like to thank:
-- **All contributors** for their contributions
-- **Open source community** for inspiring features
-- **Users** for their feedback and support
-- **Node.js**, **Express**, **Socket.IO**, and other dependencies
-
-## Thank You
-
-Thank you for choosing Chatly! We're excited to have you join our community.
-
-For the best experience, please:
-1. Use a modern web browser
-2. Keep your application updated
-3. Report any issues you encounter
-4. Provide feedback to help us improve
-
-Enjoy your chat experience with Chatly! 🎉
 
 ---
 
-*Chatly - Secure. Fast. Feature-rich.*
+## 📜 Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run electron` | Build Electron desktop app |
+| `npm run exe` | Build Windows .exe installer |
+| `npm run deb` | Build Linux .deb package |
+| `npm run rpm` | Build Linux .rpm package |
+| `npm run appimage` | Build Linux AppImage |
+| `npm run android` | Build Android APK |
+| `npm run test` | Run tests |
+
+---
+
+## 🌍 Supported Languages
+
+- English (en) - Default
+- German (de)
+
+Language is automatically detected from browser/IP settings.
+
+---
+
+## 🔐 Security
+
+All communications are encrypted using:
+- **AES-256-GCM** for message and file encryption
+- **RSA-2048** for key exchange
+- **JWT** for session authentication
+- **bcrypt** for password hashing
+
+---
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+---
+
+## 📞 Support
+
+- Email: team@chatly.io
+- Issues: GitHub Issues
+- Discord: [Join our server](https://discord.gg/chatly)
