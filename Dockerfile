@@ -1,74 +1,36 @@
-# Chatly Dockerfile
-# Multi-stage build for Chatly Discord-like platform
-
-FROM node:18-alpine AS base
-
-# Install dependencies for building
-RUN apk add --no-cache --virtual .build-deps \
-    python3 \
-    make \
-    g++ \
-    git \
-    && apk add --no-cache curl
-
-# Install pnpm
-RUN curl -fsSL https://pnpm.js.org/install.sh | sh -
-ENV PATH="/root/.pnpm" "$PATH"
+FROM node:18-alpine
 
 WORKDIR /app
 
+# Install build dependencies for native modules
+RUN apk add --no-cache python3 make g++ git
+
 # Copy package files
-COPY package.json package-lock.yaml ./
+COPY package*.json ./
 
-# Install dependencies with pnpm
-RUN pnpm install --frozen-lockfile
+# Install dependencies
+RUN npm ci --only=production
 
-# Development stage
-FROM base AS dev
-
-# Copy source files
-COPY . ./
-
-# Expose ports
-EXPOSE 3000
-
-# Start development server
-CMD ["pnpm", "run", "dev"]
-
-# Production stage
-FROM base AS prod
-
-# Set environment variables
-ENV NODE_ENV=production
-ENV PORT=3000
-ENV SESSION_SECRET="${SESSION_SECRET}"
-ENV INVITE_CODE="${INVITE_CODE}"
-ENV ENCRYPTION_KEY="${ENCRYPTION_KEY}"
-ENV ENCRYPTION_IV="${ENCRYPTION_IV}"
+# Copy application code
+COPY . .
 
 # Create necessary directories
-RUN mkdir -p /app/public/sounds /app/encrypted_files /app/data
+RUN mkdir -p encrypted_files public/sounds data
 
-# Copy source files
-COPY . ./
+# Expose port
+EXPOSE 3000
 
-# Build application
-RUN pnpm run build
+# Environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV SESSION_SECRET=change-me-in-production
+ENV INVITE_CODE=change-me-in-production
+ENV ENCRYPTION_KEY=change-me-in-production-32-chars
+ENV ENCRYPTION_IV=change-me-16-char
 
-# Set up health check
-HEALTHCHECK --interval=5m --timeout=15m "curl -f http://localhost:3000/api/health || exit 1"
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
 
-# Start production server
-CMD ["pnpm", "start"]
-
-# Testing stage
-FROM base AS test
-
-# Install testing dependencies
-RUN apk add --no-cache git
-
-# Copy source files
-COPY . ./
-
-# Run tests
-CMD ["pnpm", "run", "test"]
+# Start server
+CMD ["node", "server.js"]
