@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Chatly Mobile App - Discord-like Chat mit End-to-End-Verschlüsselung",
-  "main": "src/main.js",
+  "main": "src-electron/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
