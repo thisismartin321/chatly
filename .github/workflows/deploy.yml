@@ -37,7 +37,10 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          rm -f package-lock.json
+          rm -rf node_modules
+          npm install --include=optional
 
       - name: Build web app
         run: npm run build
@@ -61,15 +64,18 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      - name: Install system dependencies for Electron
+      - name: Install system dependencies for Electron (Ubuntu 26.04 compatible)
         run: |
           echo "=== Installing system dependencies ==="
           sudo apt-get update
-          sudo apt-get install -y build-essential libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 xvfb
+          sudo apt-get install -y build-essential libgtk-3-dev libnotify-dev libnss3 libxss1 libasound2t64 xvfb
           echo "=== System dependencies installed ==="
 
       - name: Install npm dependencies
-        run: npm install
+        run: |
+          rm -f package-lock.json
+          rm -rf node_modules
+          npm install --include=optional
 
       - name: Check electron-builder config
         run: cat electron-builder.yml
@@ -105,7 +111,10 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          rm -f package-lock.json
+          rm -rf node_modules
+          npm install --include=optional
 
       - name: Build web app first
         run: npm run build
@@ -137,15 +146,18 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      - name: Install system dependencies
+      - name: Install system dependencies (Ubuntu 26.04 compatible)
         run: |
           echo "=== Installing system dependencies ==="
           sudo apt-get update
-          sudo apt-get install -y build-essential libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 xvfb rpm
+          sudo apt-get install -y build-essential libgtk-3-dev libnotify-dev libnss3 libxss1 libasound2t64 xvfb rpm
           echo "=== System dependencies installed ==="
 
       - name: Install npm dependencies
-        run: npm install
+        run: |
+          rm -f package-lock.json
+          rm -rf node_modules
+          npm install --include=optional
 
       - name: Build web app first
         run: npm run build
