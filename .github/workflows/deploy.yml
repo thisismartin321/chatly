@@ -112,8 +112,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          rm -f package-lock.json
-          rm -rf node_modules
+          Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
+          Remove-Item -Force -Recurse node_modules -ErrorAction SilentlyContinue
           npm install --include=optional
 
       - name: Build web app first
