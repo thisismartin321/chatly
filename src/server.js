@@ -1,4 +1,4 @@
-// Chatly Premium - Discord-like Chat Platform with End-to-End Encryption
+// Chatly - Discord-like Chat Platform with End-to-End Encryption
 // Multi-server system with invitation codes, language channels, and advanced features
 
 const express = require('express');

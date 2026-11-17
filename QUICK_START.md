@@ -17,10 +17,10 @@ Chatly is a Discord-like chat platform with **end-to-end encryption**, **multi-s
 
 ```bash
 # Clone Chatly repository
-git clone https://github.com/chatly-premium/chatly-premium.git
+git clone https://github.com/chatly/chatly.git
 
 # Navigate to the project directory
-cd chatly-premium
+cd chatly
 ```
 
 ### 2. Install Dependencies
