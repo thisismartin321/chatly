@@ -1,116 +1,565 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111318">
-  <meta name="description" content="Chatly – dein privater Community-Chat.">
-  <title>Chatly — Community</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="/socket.io/socket.io.js" defer></script>
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatly Premium - Discord-like Chat Platform</title>
+    <meta name="description" content="Secure, end-to-end encrypted chat platform with Discord-like features">
+    
+    <!-- Security headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https: data:; connect-src 'self' ws: wss:; media-src 'self' data: https:">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/styles.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <!-- i18n -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/23.7.11/i18next.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-http-backend/2.3.1/i18nextHttpBackend.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/7.0.1/i18nextBrowserLanguageDetector.min.js"></script>
 </head>
 <body>
-  <div id="authScreen" class="auth-screen">
-    <div class="auth-glow"></div>
-    <div class="auth-card">
-      <div class="auth-brand"><span class="brand-mark">✦</span><span>chatly</span></div>
-      <div class="auth-eyebrow">DEIN PRIVATER SPACE</div>
-      <h1>Schön, dass<br>du da bist.</h1>
-      <p class="auth-copy">Melde dich an und werde Teil deiner Community.</p>
-      <div class="tabs">
-        <button id="loginTab" class="tab active" type="button">Anmelden</button>
-        <button id="registerTab" class="tab" type="button">Registrieren</button>
-      </div>
-      <form id="authForm">
-        <label for="username">Benutzername</label>
-        <input id="username" maxlength="20" autocomplete="username" placeholder="z. B. Alex" required>
-        <label for="password">Passwort</label>
-        <input id="password" type="password" autocomplete="current-password" placeholder="Mindestens 10 Zeichen" required>
-        <div id="inviteField" hidden>
-          <label for="inviteCode">Einladungscode</label>
-          <input id="inviteCode" autocomplete="off" placeholder="Dein Einladungscode">
-        </div>
-        <button class="primary-btn" type="submit" id="authButton">Anmelden <span>↗</span></button>
-      </form>
-      <p id="authError" class="error" role="alert"></p>
-      <div class="auth-foot"><span class="secure-dot"></span> Privater Zugang · Verschlüsselte Passwortspeicherung</div>
-    </div>
-    <div class="auth-note">CHATLY COMMUNITY <span>•</span> MADE FOR YOUR PEOPLE</div>
-  </div>
-
-  <div id="appScreen" class="app" hidden>
-    <aside class="server-rail">
-      <div class="rail-logo" title="Chatly">✦</div>
-      <div class="rail-divider"></div>
-      <button class="server-icon selected" title="Chatly Community">C<span class="server-indicator"></span></button>
-      <button class="server-add" title="Weitere Server – bald verfügbar">＋</button>
-      <div class="rail-bottom"><span class="rail-status"></span></div>
-    </aside>
-
-    <aside class="channel-sidebar">
-      <button class="workspace-switch">
-        <span class="workspace-avatar">C</span>
-        <span class="workspace-name"><strong>Chatly Community</strong><small>Privater Server</small></span>
-        <span class="chevron">⌄</span>
-      </button>
-      <div class="sidebar-scroll">
-        <div class="sidebar-label">COMMUNITY</div>
-        <div class="channel-category"><span>TEXTKANÄLE</span><span>＋</span></div>
-        <button class="channel active"><span class="hash">#</span><span>allgemein</span><span class="channel-live"></span></button>
-        <div class="sidebar-label voice-label">SPRACHKANÄLE</div>
-        <div class="coming-soon"><span>◖</span> Sprachkanäle <em>BALD</em></div>
-        <div class="sidebar-spacer"></div>
-        <div class="sidebar-tip"><div class="tip-icon">✧</div><strong>Dein Space.</strong><p>Ein Ort für gute Gespräche und deine Lieblingsmenschen.</p></div>
-      </div>
-      <div class="user-panel">
-        <div class="user-avatar" id="avatar">C<span class="presence"></span></div>
-        <div class="user-details"><strong id="profileName">Benutzer</strong><small><i></i> Online</small></div>
-        <button class="icon-btn" id="logoutButton" title="Abmelden" aria-label="Abmelden">⇥</button>
-      </div>
-    </aside>
-
-    <main class="chat-area">
-      <header class="chat-header">
-        <div class="channel-heading"><span class="heading-hash">#</span><div><h2>allgemein</h2><p>Der Treffpunkt für alles, was euch bewegt.</p></div></div>
-        <div class="header-actions">
-          <div class="connection-pill"><span class="online-dot"></span><span id="connectionText">Verbinde…</span></div>
-          <div class="header-divider"></div>
-          <button class="icon-btn header-icon" title="Mitglieder" aria-label="Mitglieder">♙</button>
-          <button class="icon-btn header-icon" title="Hilfe" aria-label="Hilfe">?</button>
-        </div>
-      </header>
-
-      <div class="chat-layout">
-        <section class="conversation">
-          <div id="messages" class="messages" aria-live="polite">
-            <div class="welcome">
-              <div class="welcome-symbol">✦</div>
-              <div class="welcome-tag">WILLKOMMEN IN DEINER COMMUNITY</div>
-              <h1>Hier beginnt<br>das Gespräch.</h1>
-              <p>Schreib die erste Nachricht und bring die Community zusammen.</p>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-comments"></i>
+                <span>Chatly Premium</span>
             </div>
-          </div>
-          <form id="messageForm" class="composer">
-            <button class="composer-plus" type="button" title="Weitere Funktionen – bald verfügbar" aria-label="Weitere Funktionen">＋</button>
-            <input id="messageInput" type="text" maxlength="1000" placeholder="Nachricht an #allgemein" autocomplete="off" required>
-            <span class="composer-hint">ENTER ↵</span>
-            <button type="submit" class="send-button" aria-label="Nachricht senden">➤</button>
-          </form>
-          <div class="composer-caption">Teile Gedanken, Ideen und gute Vibes. <span>Sei respektvoll.</span></div>
-        </section>
-        <aside class="members-panel">
-          <div class="members-title">MITGLIEDER <span id="memberCount">0</span></div>
-          <div class="member-group-title"><span class="member-dot"></span> ONLINE — <span id="onlineCount">0</span></div>
-          <div id="memberList" class="member-list"></div>
-          <div class="members-footer">Community <span>✦</span></div>
-        </aside>
-      </div>
-    </main>
-  </div>
-  <div id="toast" class="toast" role="status"></div>
+            <div class="loading-spinner"></div>
+            <p>Loading Chatly...</p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app hidden">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-comments"></i>
+                <span>Chatly Premium</span>
+            </div>
+            
+            <div class="navbar-search">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search..." id="navbar-search">
+                </div>
+            </div>
+            
+            <div class="navbar-user">
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <span class="username" id="navbar-username">Loading...</span>
+                        <span class="user-status online">Online</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                
+                <div class="user-dropdown">
+                    <button class="dropdown-item" onclick="openSettings()">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </button>
+                    <button class="dropdown-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <div class="main-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <button class="sidebar-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h3>Navigation</h3>
+                </div>
+                
+                <div class="sidebar-content">
+                    <!-- User Profile -->
+                    <div class="user-profile-sidebar">
+                        <div class="profile-avatar-large">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h4 id="sidebar-username">Loading...</h4>
+                            <p class="profile-status">Online</p>
+                            <div class="profile-badges">
+                                <span class="badge">Premium</span>
+                                <span class="badge">Verified</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Servers List -->
+                    <div class="servers-section">
+                        <div class="section-header">
+                            <h4>Servers</h4>
+                            <button class="create-server-btn" onclick="openCreateServerModal()" title="Create Server">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="servers-list" id="servers-list">
+                            <!-- Servers will be populated here -->
+                            <div class="loading-placeholder">Loading servers...</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Direct Messages -->
+                    <div class="dm-section">
+                        <div class="section-header">
+                            <h4>Direct Messages</h4>
+                        </div>
+                        
+                        <div class="dm-list" id="dm-list">
+                            <!-- DMs will be populated here -->
+                            <div class="loading-placeholder">No direct messages</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Friends -->
+                    <div class="friends-section">
+                        <div class="section-header">
+                            <h4>Friends</h4>
+                            <button class="add-friend-btn" onclick="openAddFriendModal()" title="Add Friend">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="friends-list" id="friends-list">
+                            <!-- Friends will be populated here -->
+                            <div class="loading-placeholder">No friends</div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- Main Chat Area -->
+            <div class="main-chat-area">
+                <!-- Server View -->
+                <div id="server-view" class="server-view active">
+                    <!-- Server Header -->
+                    <div class="server-header">
+                        <div class="server-header-left">
+                            <div class="server-avatar" id="server-avatar">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="server-info">
+                                <h2 id="server-name">Select a Server</h2>
+                                <p id="server-description">Choose a server to start chatting</p>
+                            </div>
+                        </div>
+                        
+                        <div class="server-header-actions">
+                            <button class="header-btn" onclick="openServerSettings()" title="Server Settings">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <button class="header-btn" onclick="openInviteModal()" title="Invite People">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
+                            <button class="header-btn" onclick="toggleVoicePanel()" title="Voice Chat">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Channels -->
+                    <div class="channels-container" id="channels-container">
+                        <!-- Channels will be populated here -->
+                        <div class="no-channel-selected">
+                            <i class="fas fa-comments"></i>
+                            <h3>Welcome to Chatly Premium</h3>
+                            <p>Select a channel or create a new one to start chatting</p>
+                            <button class="btn-primary" onclick="openCreateServerModal()">Create Server</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Voice Panel -->
+                <div id="voice-panel" class="voice-panel hidden">
+                    <div class="voice-panel-header">
+                        <h3>Voice Chat</h3>
+                        <button class="close-voice-panel" onclick="toggleVoicePanel()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="voice-panel-content">
+                        <div class="voice-channels-sidebar">
+                            <h4>Voice Channels</h4>
+                            <div class="voice-channels-list" id="voice-channels-list">
+                                <!-- Voice channels will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="voice-connections" id="voice-connections">
+                            <div class="connection-placeholder">
+                                <i class="fas fa-microphone-slash"></i>
+                                <p>Not connected to any voice channel</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Direct Message View -->
+                <div id="dm-view" class="dm-view hidden">
+                    <!-- DM Header -->
+                    <div class="dm-header">
+                        <div class="dm-header-left">
+                            <div class="dm-avatar" id="dm-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="dm-info">
+                                <h2 id="dm-name">Select a User</h2>
+                                <p class="dm-status" id="dm-status">Offline</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- DM Messages -->
+                    <div class="dm-messages-container" id="dm-messages-container">
+                        <!-- DM messages will be populated here -->
+                        <div class="no-dm-selected">
+                            <i class="fas fa-comment-alt"></i>
+                            <h3>Select a conversation</h3>
+                            <p>Choose a user to start chatting</p>
+                        </div>
+                    </div>
+                    
+                    <!-- DM Message Input -->
+                    <div class="dm-message-input" id="dm-message-input" style="display: none;">
+                        <div class="message-input-container">
+                            <button class="attachment-btn" onclick="openFileUpload('dm')">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button class="emoji-btn" onclick="toggleEmojiPicker('dm')">
+                                <i class="fas fa-smile"></i>
+                            </button>
+                            <input type="text" class="message-input" id="dm-message-input-field" placeholder="Message..." onkeydown="handleDMMessagesKeydown(event)">
+                            <button class="send-btn" onclick="sendDMMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="emoji-picker" id="dm-emoji-picker" style="display: none;">
+                            <div class="emoji-categories">
+                                <button class="category-btn active" data-category="recent">Recent</button>
+                                <button class="category-btn" data-category="smileys">Smilies</button>
+                                <button class="category-btn" data-category="people">People</button>
+                                <button class="category-btn" data-category="animals">Animals</button>
+                                <button class="category-btn" data-category="food">Food</button>
+                                <button class="category-btn" data-category="activities">Activities</button>
+                            </div>
+                            <div class="emoji-grid" id="dm-emoji-grid">
+                                <!-- Emojis will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Message Input Bar -->
+        <div class="message-input-container" id="message-input-container" style="display: none;">
+            <div class="message-input-wrapper">
+                <button class="attachment-btn" onclick="openFileUpload('channel')">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <button class="emoji-btn" onclick="toggleEmojiPicker('channel')">
+                    <i class="fas fa-smile"></i>
+                </button>
+                <div class="thread-indicator" id="thread-indicator" style="display: none;">
+                    <i class="fas fa-reply"></i>
+                    <span id="thread-reply-info">Replying to message</span>
+                    <button class="cancel-reply" onclick="cancelReply()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <input type="text" class="message-input" id="message-input-field" placeholder="Message..." onkeydown="handleMessageKeydown(event)">
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="message-input-actions">
+                <button class="action-btn" onclick="toggleGifPicker()" title="GIFs">
+                    <i class="fas fa-film"></i>
+                </button>
+                <button class="action-btn" onclick="toggleSoundboard()" title="Soundboard">
+                    <i class="fas fa-music"></i>
+                </button>
+                <button class="action-btn" onclick="toggleVideoCall()" title="Video Call">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button class="action-btn" onclick="toggleScreenShare()" title="Screen Share">
+                    <i class="fas fa-desktop"></i>
+                </button>
+            </div>
+            <div class="emoji-picker" id="channel-emoji-picker" style="display: none;">
+                <div class="emoji-categories">
+                    <button class="category-btn active" data-category="recent">Recent</button>
+                    <button class="category-btn" data-category="smileys">Smilies</button>
+                    <button class="category-btn" data-category="people">People</button>
+                    <button class="category-btn" data-category="animals">Animals</button>
+                    <button class="category-btn" data-category="food">Food</button>
+                    <button class="category-btn" data-category="activities">Activities</button>
+                </div>
+                <div class="emoji-grid" id="channel-emoji-grid">
+                    <!-- Emojis will be populated here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modals -->
+        <div id="modal-overlay" class="modal-overlay" style="display: none;"></div>
+        
+        <!-- Create Server Modal -->
+        <div id="create-server-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create Server</h3>
+                    <button class="close-modal" onclick="closeCreateServerModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-server-form">
+                        <div class="form-group">
+                            <label for="server-name">Server Name</label>
+                            <input type="text" id="server-name" placeholder="My Awesome Server" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="server-description">Description (Optional)</label>
+                            <textarea id="server-description" placeholder="What does this server do?"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="server-invite-code">Invite Code</label>
+                            <input type="text" id="server-invite-code" placeholder="Auto-generated" readonly>
+                            <small>This will be used to invite members to your server</small>
+                        </div>
+                        <button type="submit" class="btn-primary">Create Server</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Invite Modal -->
+        <div id="invite-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Invite to Server</h3>
+                    <button class="close-modal" onclick="closeInviteModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="invite-section">
+                        <h4>Invite Code</h4>
+                        <div class="invite-code-display">
+                            <div class="code-value" id="server-invite-code-display">Loading...</div>
+                            <button class="copy-btn" onclick="copyInviteCode()">
+                                <i class="fas fa-copy"></i>
+                                Copy
+                            </button>
+                        </div>
+                        <p>Share this code with people you want to invite to this server.</p>
+                    </div>
+                    
+                    <div class="invite-options">
+                        <h4>Invite Options</h4>
+                        <div class="option-buttons">
+                            <button class="option-btn" onclick="sendEmailInvite()">
+                                <i class="fas fa-envelope"></i>
+                                <span>Email</span>
+                            </button>
+                            <button class="option-btn" onclick="createShareLink()">
+                                <i class="fas fa-share-alt"></i>
+                                <span>Share Link</span>
+                            </button>
+                            <button class="option-btn" onclick="generateQRCode()">
+                                <i class="fas fa-qrcode"></i>
+                                <span>QR Code</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add Friend Modal -->
+        <div id="add-friend-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Friend</h3>
+                    <button class="close-modal" onclick="closeAddFriendModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-friend-form">
+                        <div class="form-group">
+                            <label for="friend-username">Username</label>
+                            <input type="text" id="friend-username" placeholder="Enter username..." required>
+                        </div>
+                        <button type="submit" class="btn-primary">Send Friend Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Settings</h3>
+                    <button class="close-modal" onclick="closeSettingsModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" onclick="showTab('profile-tab')">Profile</button>
+                        <button class="tab-btn" onclick="showTab('appearance-tab')">Appearance</button>
+                        <button class="tab-btn" onclick="showTab('notifications-tab')">Notifications</button>
+                        <button class="tab-btn" onclick="showTab('privacy-tab')">Privacy</button>
+                        <button class="tab-btn" onclick="showTab('account-tab')">Account</button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <!-- Profile Tab -->
+                        <div id="profile-tab" class="tab-pane active">
+                            <form id="profile-form">
+                                <div class="form-group">
+                                    <label for="profile-username">Username</label>
+                                    <input type="text" id="profile-username" placeholder="New username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-bio">Bio</label>
+                                    <textarea id="profile-bio" placeholder="Tell us about yourself..." maxlength="500"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-avatar">Avatar URL</label>
+                                    <input type="url" id="profile-avatar" placeholder="https://example.com/avatar.png">
+                                </div>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                        
+                        <!-- Appearance Tab -->
+                        <div id="appearance-tab" class="tab-pane">
+                            <div class="setting-group">
+                                <h4>Theme</h4>
+                                <div class="theme-options">
+                                    <button class="theme-btn" data-theme="light">
+                                        <i class="fas fa-sun"></i>
+                                        <span>Light</span>
+                                    </button>
+                                    <button class="theme-btn" data-theme="dark">
+                                        <i class="fas fa-moon"></i>
+                                        <span>Dark</span>
+                                    </button>
+                                    <button class="theme-btn" data-theme="auto">
+                                        <i class="fas fa-adjust"></i>
+                                        <span>Auto</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-group">
+                                <h4>Font Size</h4>
+                                <div class="font-size-options">
+                                    <button class="font-size-btn" data-size="small">Small</button>
+                                    <button class="font-size-btn active" data-size="medium">Medium</button>
+                                    <button class="font-size-btn" data-size="large">Large</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Notifications Tab -->
+                        <div id="notifications-tab" class="tab-pane">
+                            <div class="setting-group">
+                                <h4>Message Notifications</h4>
+                                <div class="toggle-option">
+                                    <span>Mentions</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="toggle-mentions" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-option">
+                                    <span>Direct Messages</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="toggle-dm" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Privacy Tab -->
+                        <div id="privacy-tab" class="tab-pane">
+                            <div class="setting-group">
+                                <h4>Privacy Settings</h4>
+                                <div class="toggle-option">
+                                    <span>Show Online Status</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="toggle-status" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-option">
+                                    <span>Accept Friend Requests</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="toggle-friend-requests" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Account Tab -->
+                        <div id="account-tab" class="tab-pane">
+                            <div class="setting-group">
+                                <h4>Account Actions</h4>
+                                <button class="btn-secondary" onclick="openChangePasswordModal()">
+                                    <i class="fas fa-key"></i>
+                                    Change Password
+                                </button>
+                                <button class="btn-danger" onclick="openDeleteAccountModal()">
+                                    <i class="fas fa-trash"></i>
+                                    Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Audio Elements for Voice Chat -->
+    <audio id="remote-audio" style="display: none;"></audio>
+    <audio id="local-audio" style="display: none;"></audio>
+    
+    <!-- Scripts -->
+    <script src="/chatly.js"></script>
 </body>
 </html>
