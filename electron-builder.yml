@@ -1,0 +1,38 @@
+appId: com.chatly.app
+productName: Chatly
+copyright: Copyright © 2024 Chatly Team
+directories:
+  output: release
+  buildResources: resources
+files:
+  - dist/**
+  - src-electron/**
+extraMetadata:
+  main: src-electron/main.js
+  homepage: https://github.com/thisismartin321/chatly
+  repository: https://github.com/thisismartin321/chatly
+mac:
+  target:
+    - target: dmg
+    - target: zip
+linux:
+  target:
+    - target: deb
+      arch: [x64, arm64]
+    - target: rpm
+      arch: [x64, arm64]
+    - target: AppImage
+      arch: [x64, arm64]
+  maintainer: Chatly Team
+  vendor: Chatly Team
+win:
+  target:
+    - target: nsis
+      arch: [x64, ia32]
+  nsis:
+    oneClick: false
+    allowToChangeInstallationDirectory: true
+publish:
+  provider: github
+  owner: thisismartin321
+  repo: chatly
