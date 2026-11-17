@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111318">
+  <meta name="description" content="Chatly – dein privater Community-Chat.">
+  <title>Chatly — Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="/socket.io/socket.io.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-glow"></div>
+    <div class="auth-card">
+      <div class="auth-brand"><span class="brand-mark">✦</span><span>chatly</span></div>
+      <div class="auth-eyebrow">DEIN PRIVATER SPACE</div>
+      <h1>Schön, dass<br>du da bist.</h1>
+      <p class="auth-copy">Melde dich an und werde Teil deiner Community.</p>
+      <div class="tabs">
+        <button id="loginTab" class="tab active" type="button">Anmelden</button>
+        <button id="registerTab" class="tab" type="button">Registrieren</button>
+      </div>
+      <form id="authForm">
+        <label for="username">Benutzername</label>
+        <input id="username" maxlength="20" autocomplete="username" placeholder="z. B. Alex" required>
+        <label for="password">Passwort</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="Mindestens 10 Zeichen" required>
+        <div id="inviteField" hidden>
+          <label for="inviteCode">Einladungscode</label>
+          <input id="inviteCode" autocomplete="off" placeholder="Dein Einladungscode">
+        </div>
+        <button class="primary-btn" type="submit" id="authButton">Anmelden <span>↗</span></button>
+      </form>
+      <p id="authError" class="error" role="alert"></p>
+      <div class="auth-foot"><span class="secure-dot"></span> Privater Zugang · Verschlüsselte Passwortspeicherung</div>
+    </div>
+    <div class="auth-note">CHATLY COMMUNITY <span>•</span> MADE FOR YOUR PEOPLE</div>
+  </div>
+
+  <div id="appScreen" class="app" hidden>
+    <aside class="server-rail">
+      <div class="rail-logo" title="Chatly">✦</div>
+      <div class="rail-divider"></div>
+      <button class="server-icon selected" title="Chatly Community">C<span class="server-indicator"></span></button>
+      <button class="server-add" title="Weitere Server – bald verfügbar">＋</button>
+      <div class="rail-bottom"><span class="rail-status"></span></div>
+    </aside>
+
+    <aside class="channel-sidebar">
+      <button class="workspace-switch">
+        <span class="workspace-avatar">C</span>
+        <span class="workspace-name"><strong>Chatly Community</strong><small>Privater Server</small></span>
+        <span class="chevron">⌄</span>
+      </button>
+      <div class="sidebar-scroll">
+        <div class="sidebar-label">COMMUNITY</div>
+        <div class="channel-category"><span>TEXTKANÄLE</span><span>＋</span></div>
+        <button class="channel active"><span class="hash">#</span><span>allgemein</span><span class="channel-live"></span></button>
+        <div class="sidebar-label voice-label">SPRACHKANÄLE</div>
+        <div class="coming-soon"><span>◖</span> Sprachkanäle <em>BALD</em></div>
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-tip"><div class="tip-icon">✧</div><strong>Dein Space.</strong><p>Ein Ort für gute Gespräche und deine Lieblingsmenschen.</p></div>
+      </div>
+      <div class="user-panel">
+        <div class="user-avatar" id="avatar">C<span class="presence"></span></div>
+        <div class="user-details"><strong id="profileName">Benutzer</strong><small><i></i> Online</small></div>
+        <button class="icon-btn" id="logoutButton" title="Abmelden" aria-label="Abmelden">⇥</button>
+      </div>
+    </aside>
+
+    <main class="chat-area">
+      <header class="chat-header">
+        <div class="channel-heading"><span class="heading-hash">#</span><div><h2>allgemein</h2><p>Der Treffpunkt für alles, was euch bewegt.</p></div></div>
+        <div class="header-actions">
+          <div class="connection-pill"><span class="online-dot"></span><span id="connectionText">Verbinde…</span></div>
+          <div class="header-divider"></div>
+          <button class="icon-btn header-icon" title="Mitglieder" aria-label="Mitglieder">♙</button>
+          <button class="icon-btn header-icon" title="Hilfe" aria-label="Hilfe">?</button>
+        </div>
+      </header>
+
+      <div class="chat-layout">
+        <section class="conversation">
+          <div id="messages" class="messages" aria-live="polite">
+            <div class="welcome">
+              <div class="welcome-symbol">✦</div>
+              <div class="welcome-tag">WILLKOMMEN IN DEINER COMMUNITY</div>
+              <h1>Hier beginnt<br>das Gespräch.</h1>
+              <p>Schreib die erste Nachricht und bring die Community zusammen.</p>
+            </div>
+          </div>
+          <form id="messageForm" class="composer">
+            <button class="composer-plus" type="button" title="Weitere Funktionen – bald verfügbar" aria-label="Weitere Funktionen">＋</button>
+            <input id="messageInput" type="text" maxlength="1000" placeholder="Nachricht an #allgemein" autocomplete="off" required>
+            <span class="composer-hint">ENTER ↵</span>
+            <button type="submit" class="send-button" aria-label="Nachricht senden">➤</button>
+          </form>
+          <div class="composer-caption">Teile Gedanken, Ideen und gute Vibes. <span>Sei respektvoll.</span></div>
+        </section>
+        <aside class="members-panel">
+          <div class="members-title">MITGLIEDER <span id="memberCount">0</span></div>
+          <div class="member-group-title"><span class="member-dot"></span> ONLINE — <span id="onlineCount">0</span></div>
+          <div id="memberList" class="member-list"></div>
+          <div class="members-footer">Community <span>✦</span></div>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>
