@@ -1,7 +1,7 @@
 //!/usr/bin/env node
 
-// Chatly Premium Test Setup
-// Comprehensive test setup for Chatly Premium platform
+// Chatly Test Setup
+// Comprehensive test setup for Chatly platform
 
 const fs = require('fs').promises;
 const path = require('path');
@@ -33,7 +33,7 @@ class TestSetup {
   }
 
   async runTests() {
-    this.log('Starting Chatly Premium test suite...', 'info');
+    this.log('Starting Chatly test suite...', 'info');
     
     try {
       await this.checkEnvironment();
@@ -306,7 +306,7 @@ class TestSetup {
     });
 
     console.log('\n🎉 Setup completed successfully!');
-    console.log('🚀 Chatly Premium is ready for development and deployment.');
+    console.log('🚀 Chatly is ready for development and deployment.');
   }
 }
 

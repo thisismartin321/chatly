@@ -1,5 +1,5 @@
-// Chatly Premium Frontend
-// Complete implementation of the Chatly Premium platform
+// Chatly Frontend
+// Complete implementation of the Chatly platform
 
 const API_BASE = '/api';
 let socket = null;

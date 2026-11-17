@@ -1,5 +1,5 @@
-# Chatly Premium Dockerfile
-# Multi-stage build for Chatly Premium Discord-like platform
+# Chatly Dockerfile
+# Multi-stage build for Chatly Discord-like platform
 
 FROM node:18-alpine AS base
 

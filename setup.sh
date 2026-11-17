@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Chatly Premium Setup Script
-# Automated setup for Chatly Premium development environment
+# Chatly Setup Script
+# Automated setup for Chatly development environment
 
 set -e
 
-echo "🚀 Setting up Chatly Premium..."
+echo "🚀 Setting up Chatly..."
 
 # Check Node.js version
 NODE_VERSION="$(node --version | cut -d 'v' -f 1)"

@@ -1,8 +1,8 @@
-# Chatly Premium Installation Guide
+# Chatly Installation Guide
 
 ## Overview
 
-Chatly Premium is a Discord-like chat platform with end-to-end encryption, multi-server support, and advanced features. This guide covers installation, setup, and configuration.
+Chatly is a Discord-like chat platform with end-to-end encryption, multi-server support, and advanced features. This guide covers installation, setup, and configuration.
 
 ## System Requirements
 
