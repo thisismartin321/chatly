@@ -1,8 +1,8 @@
-# Chatly Premium - Quick Start Guide
+# Chatly - Quick Start Guide
 
 ## Overview
 
-Chatly Premium is a Discord-like chat platform with **end-to-end encryption**, **multi-server support**, and **advanced security features**. This guide will help you get started with the platform quickly.
+Chatly is a Discord-like chat platform with **end-to-end encryption**, **multi-server support**, and **advanced security features**. This guide will help you get started with the platform quickly.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ Chatly Premium is a Discord-like chat platform with **end-to-end encryption**, *
 ### 1. Clone the Repository
 
 ```bash
-# Clone Chatly Premium repository
+# Clone Chatly repository
 git clone https://github.com/chatly-premium/chatly-premium.git
 
 # Navigate to the project directory
@@ -261,7 +261,7 @@ pm2 logs chatly-premium
 This project is licensed under the MIT License.
 
 ### Copyright
-Copyright © 2024 Chatly Premium Team
+Copyright © 2024 Chatly Team
 
 ### Attribution
 - Built with ❤️ for the open-source community
@@ -292,7 +292,7 @@ We would like to thank:
 
 ## Thank You
 
-Thank you for choosing Chatly Premium! We're excited to have you join our community.
+Thank you for choosing Chatly! We're excited to have you join our community.
 
 For the best experience, please:
 1. Use a modern web browser
@@ -300,7 +300,7 @@ For the best experience, please:
 3. Report any issues you encounter
 4. Provide feedback to help us improve
 
-Enjoy your chat experience with Chatly Premium! 🎉
+Enjoy your chat experience with Chatly! 🎉
 
 ---
 

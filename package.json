@@ -1,5 +1,5 @@
 {
-  "name": "chatly-premium",
+  "name": "chatly",
   "version": "2.0.0",
   "private": true,
   "description": "Discord-like Chat Platform with End-to-End Encryption",

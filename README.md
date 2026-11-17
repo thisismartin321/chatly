@@ -1,4 +1,4 @@
-# Chatly Premium
+# Chatly
 
 Discord-like Chat Platform with End-to-End Encryption
 
