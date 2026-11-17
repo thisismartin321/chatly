@@ -1,19 +1,76 @@
 {
-  "name": "chatly-premium",
+  "name": "chatly",
   "version": "2.0.0",
   "private": true,
-  "description": "Privater Echtzeit-Chat mit modernem Discord-inspiriertem Interface",
-  "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=18" },
+  "description": "Discord-like Chat Platform with End-to-End Encryption",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "build": "npm run lint && npm test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "better-sqlite3": "^11.8.1",
+    "better-sqlite3": "^11.10.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "express-session": "^1.18.1",
     "helmet": "^8.0.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "crypto": "^1.0.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "axios": "^1.7.1",
+    "i18n": "^0.15.1",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
+    "uuid": "^10.0.1",
+    "nedb": "^1.8.0",
+    "simple-peer": "^9.7.2",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1"
+  },
+  "keywords": [
+    "chat",
+    "discord",
+    "real-time",
+    "messaging",
+    "encryption",
+    "websocket",
+    "socket.io",
+    "multi-server",
+    "file-sharing"
+  ],
+  "author": "Chatly Premium Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chatly-premium/chatly-premium.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chatly-premium/chatly-premium/issues"
+  },
+  "homepage": "https://chatly.io",
+  "directories": {
+    "src": "src",
+    "public": "public",
+    "locales": "locales"
+  },
+  "overrides": {
+    "uuid": "^10.0.0"
   }
 }
