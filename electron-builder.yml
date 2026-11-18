@@ -11,6 +11,24 @@ extraMetadata:
   main: src-electron/main.js
   homepage: https://github.com/thisismartin321/chatly
   repository: https://github.com/thisismartin321/chatly
+mac:
+  target:
+    - dmg
+    - zip
+linux:
+  target:
+    - deb
+    - rpm
+    - AppImage
+    - flatpak
+  maintainer: Chatly Team
+  vendor: Chatly Team
+  category: Internet
+win:
+  target:
+    - nsis
+  arch:
+    - x64
 publish:
   provider: github
   owner: thisismartin321

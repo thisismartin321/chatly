@@ -186,6 +186,14 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Build Flatpak
+        run: |
+          echo "=== Building Flatpak ==="
+          xvfb-run -a npx electron-builder --linux flatpak --publish never
+          echo "=== Flatpak build completed ==="
+        env:
+          NODE_ENV: production
+
       - name: Upload Linux packages
         uses: actions/upload-artifact@v4
         with:
@@ -193,9 +201,48 @@ jobs:
           path: release/
           if-no-files-found: ignore
 
+  build-android:
+    runs-on: ubuntu-latest
+    needs: [build-web]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install Cordova
+        run: npm install -g cordova
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Build web app first
+        run: npm run build
+
+      - name: Add Android platform
+        run: cordova platform add android
+
+      - name: Build Android APK
+        run: cordova build android --release
+        env:
+          NODE_ENV: production
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: chatly-android
+          path: platforms/android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: ignore
+
   release:
     runs-on: ubuntu-latest
-    needs: [build-web, build-electron-linux, build-windows, build-linux-packages]
+    needs: [build-web, build-electron-linux, build-windows, build-linux-packages, build-android]
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
@@ -214,5 +261,6 @@ jobs:
             chatly-electron-linux/**/*
             chatly-windows/**/*
             chatly-linux-packages/**/*
+            chatly-android/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
