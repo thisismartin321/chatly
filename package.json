@@ -48,22 +48,5 @@
     "eslint": "^8.55.0",
     "prettier": "^3.1.0"
   },
-  "build": {
-    "appId": "com.chatly.app",
-    "productName": "Chatly",
-    "copyright": "Copyright © 2024 Chatly Team",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "dist/**/*",
-      "src-electron/**/*"
-    ],
-    "win": ["nsis"],
-    "linux": ["deb", "rpm", "AppImage"],
-    "mac": {
-      "target": ["dmg", "zip"]
-    },
-    "publish": null
-  }
+  
 }
