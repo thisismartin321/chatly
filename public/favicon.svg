@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="star-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#4ecdc4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#45b7d1;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#f9d423;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- 4-Zacken Stern mit abgerundeten Ecken -->
+  <path d="M 50 15 L 78 38 L 100 50 L 78 62 L 50 85 L 22 62 L 0 50 L 22 38 Z" 
+        fill="url(#star-grad)" />
+  <!-- Innerer Kreis für moderne Optik -->
+  <circle cx="50" cy="50" r="20" fill="rgba(255,255,255,0.2)" />
+  <!-- Kleiner Punkt in der Mitte -->
+  <circle cx="50" cy="50" r="8" fill="white" />
+</svg>
