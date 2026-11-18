@@ -68,7 +68,7 @@ jobs:
         run: |
           echo "=== Installing system dependencies ==="
           sudo apt-get update
-          sudo apt-get install -y build-essential libgtk-3-dev libnotify-dev libnss3 libxss1 libasound2t64 xvfb
+          sudo apt-get install -y build-essential libgtk-3-dev libnotify-dev libnss3 libxss1 libasound2t64 xvfb rpm flatpak flatpak-builder
           echo "=== System dependencies installed ==="
 
       - name: Install npm dependencies
@@ -76,9 +76,6 @@ jobs:
           rm -f package-lock.json
           rm -rf node_modules
           npm install --include=optional
-
-      - name: Check electron-builder config
-        run: cat electron-builder.yml
 
       - name: Build web app first
         run: npm run build
@@ -216,6 +213,9 @@ jobs:
       - name: Install Cordova
         run: npm install -g cordova
 
+      - name: Initialize Cordova project
+        run: cordova create . com.chatly.app Chatly
+
       - name: Install Android SDK command-line tools
         run: |
           mkdir -p /opt/android-sdk/cmdline-tools
@@ -232,8 +232,13 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-      - name: Build web app first
+      - name: Build web app
         run: npm run build
+
+      - name: Copy dist to Cordova www
+        run: |
+          rm -rf www
+          cp -r dist www
 
       - name: Add Android platform
         run: |
