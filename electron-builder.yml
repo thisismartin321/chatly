@@ -13,24 +13,21 @@ extraMetadata:
   repository: https://github.com/thisismartin321/chatly
 mac:
   target:
-    - target: dmg
-    - target: zip
+    - dmg
+    - zip
 linux:
   target:
-    - target: deb
-      arch: [x64, arm64]
-      category: Internet
-    - target: rpm
-      arch: [x64, arm64]
-      category: Internet
-    - target: AppImage
-      arch: [x64, arm64]
+    - deb
+    - rpm
+    - AppImage
   maintainer: Chatly Team
   vendor: Chatly Team
+  category: Internet
 win:
   target:
-    - target: nsis
-      arch: [x64, ia32]
+    - nsis
+  arch:
+    - x64
 publish:
   provider: github
   owner: thisismartin321
