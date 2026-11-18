@@ -4,6 +4,11 @@
   "private": true,
   "description": "Chatly Mobile App - Discord-like Chat mit End-to-End-Verschlüsselung",
   "main": "src-electron/main.js",
+  "author": {
+    "name": "Chatly Team",
+    "email": "team@chatly.io",
+    "url": "https://github.com/thisismartin321/chatly"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -46,12 +51,7 @@
   "build": {
     "appId": "com.chatly.app",
     "productName": "Chatly",
-    "author": {
-  "name": "Chatly Team",
-  "email": "team@chatly.io",
-  "url": "https://github.com/thisismartin321/chatly"
-},
-  "copyright": "Copyright © 2024 Chatly Team",
+    "copyright": "Copyright © 2024 Chatly Team",
     "directories": {
       "output": "release"
     },
@@ -60,30 +60,11 @@
       "src-electron/**/*"
     ],
     "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": ["x64"]
-        }
-      ]
+      "target": ["nsis"],
+      "arch": ["x64"]
     },
     "linux": {
-      "target": [
-        {
-          "target": "deb",
-          "arch": ["x64", "arm64"],
-          "category": "Internet"
-        },
-        {
-          "target": "rpm",
-          "arch": ["x64", "arm64"],
-          "category": "Internet"
-        },
-        {
-          "target": "AppImage",
-          "arch": ["x64", "arm64"]
-        }
-      ],
+      "target": ["deb", "rpm", "AppImage"],
       "category": "Internet",
       "maintainer": "Chatly Team",
       "vendor": "Chatly Team"
