@@ -186,14 +186,6 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Build Flatpak
-        run: |
-          echo "=== Building Flatpak ==="
-          xvfb-run -a npx electron-builder --linux flatpak --publish never
-          echo "=== Flatpak build completed ==="
-        env:
-          NODE_ENV: production
-
       - name: Upload Linux packages
         uses: actions/upload-artifact@v4
         with:
@@ -216,15 +208,18 @@ jobs:
       - name: Install Cordova
         run: npm install -g cordova
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK components
+      - name: Install Android SDK command-line tools
         run: |
-          sdkmanager "platform-tools"
-          sdkmanager "platforms;android-34"
-          sdkmanager "build-tools;34.0.0"
-          sdkmanager --licenses
+          mkdir -p /opt/android-sdk
+          cd /opt/android-sdk
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o cmdline-tools.zip
+          unzip -q cmdline-tools.zip -d cmdline-tools
+          mv cmdline-tools/cmdline-tools cmdline-tools/latest
+          chmod +x cmdline-tools/latest/bin/sdkmanager
+          echo "y" | cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          cmdline-tools/latest/bin/sdkmanager --licenses
+        env:
+          ANDROID_SDK_ROOT: /opt/android-sdk
 
       - name: Install npm dependencies
         run: npm install
@@ -233,12 +228,19 @@ jobs:
         run: npm run build
 
       - name: Add Android platform
-        run: cordova platform add android
+        run: |
+          export ANDROID_SDK_ROOT=/opt/android-sdk
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+          cordova platform add android
 
       - name: Build Android APK
-        run: cordova build android --release
+        run: |
+          export ANDROID_SDK_ROOT=/opt/android-sdk
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+          cordova build android --release
         env:
           NODE_ENV: production
+          ANDROID_SDK_ROOT: /opt/android-sdk
 
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
