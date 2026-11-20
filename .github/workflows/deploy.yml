@@ -213,9 +213,6 @@ jobs:
       - name: Install Cordova
         run: npm install -g cordova
 
-      - name: Initialize Cordova project
-        run: cordova create . com.chatly.app Chatly
-
       - name: Install Android SDK command-line tools
         run: |
           mkdir -p /opt/android-sdk/cmdline-tools
@@ -235,21 +232,26 @@ jobs:
       - name: Build web app
         run: npm run build
 
-      - name: Copy dist to Cordova www
+      - name: Create Cordova app directory
         run: |
+          mkdir -p cordova-app
+          cd cordova-app
+          cordova create . com.chatly.app Chatly
           rm -rf www
-          cp -r dist www
+          cp -r ../dist www
 
       - name: Add Android platform
         run: |
           export ANDROID_SDK_ROOT=/opt/android-sdk
           export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+          cd cordova-app
           cordova platform add android
 
       - name: Build Android APK
         run: |
           export ANDROID_SDK_ROOT=/opt/android-sdk
           export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+          cd cordova-app
           cordova build android --release
         env:
           NODE_ENV: production
@@ -259,7 +261,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chatly-android
-          path: platforms/android/app/build/outputs/apk/release/app-release.apk
+          path: cordova-app/platforms/android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: ignore
 
   release:
