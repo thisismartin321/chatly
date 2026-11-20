@@ -8,6 +8,9 @@ on:
     branches: [main, kilo/light-engine-1c5]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
