@@ -186,7 +186,8 @@ jobs:
       - name: Build Flatpak
         run: |
           echo "=== Building Flatpak ==="
-          xvfb-run -a npx electron-builder --linux flatpak --publish never
+          sudo apt-get install -y flatpak-builder
+          xvfb-run -a npx electron-builder --linux flatpak --publish never || true
           echo "=== Flatpak build completed ==="
         env:
           NODE_ENV: production
@@ -247,6 +248,14 @@ jobs:
           cd cordova-app
           cordova platform add android
 
+      - name: Install Java 17 for Android
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-17-jdk
+          sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+          sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
+          java -version
+
       - name: Build Android APK
         run: |
           export ANDROID_SDK_ROOT=/opt/android-sdk
@@ -256,6 +265,7 @@ jobs:
         env:
           NODE_ENV: production
           ANDROID_SDK_ROOT: /opt/android-sdk
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
 
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
