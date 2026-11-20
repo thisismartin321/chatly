@@ -59,19 +59,9 @@
       "dist/**/*",
       "src-electron/**/*"
     ],
-    "linux": {
-      "target": ["deb", "rpm", "AppImage", "flatpak"],
-      "category": "Internet",
-      "maintainer": "Chatly Team",
-      "vendor": "Chatly Team"
-    },
-    "win": {
-      "target": ["nsis"],
-      "arch": ["x64"]
-    },
-    "mac": {
-      "target": ["dmg", "zip"]
-    },
+    "win": null,
+    "linux": null,
+    "mac": null,
     "publish": null
   }
 }

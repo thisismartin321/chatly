@@ -221,7 +221,7 @@ jobs:
           unzip -q commandlinetools-linux-11076708_latest.zip
           mv cmdline-tools latest
           chmod +x latest/bin/sdkmanager
-          echo "y" | latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          echo "y" | latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;36.0.0"
           latest/bin/sdkmanager --licenses
         env:
           ANDROID_HOME: /opt/android-sdk
