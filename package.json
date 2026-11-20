@@ -60,7 +60,16 @@
       "src-electron/**/*"
     ],
     "win": null,
-    "linux": null,
+    "linux": {
+      "target": ["deb", "rpm", "AppImage", "flatpak"],
+      "category": "Internet",
+      "maintainer": "Chatly Team",
+      "vendor": "Chatly Team",
+      "desktopName": "Chatly",
+      "synopsis": "Secure Discord-like Chat with End-to-End Encryption",
+      "description": "Secure Discord-like Chat Platform with End-to-End Encryption",
+      "executableName": "chatly"
+    },
     "mac": null,
     "publish": null
   }
