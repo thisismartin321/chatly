@@ -186,8 +186,7 @@ jobs:
       - name: Build Flatpak
         run: |
           echo "=== Building Flatpak ==="
-          sudo apt-get install -y flatpak-builder
-          xvfb-run -a npx electron-builder --linux flatpak --publish never || true
+          xvfb-run -a npx electron-builder --linux flatpak --publish never
           echo "=== Flatpak build completed ==="
         env:
           NODE_ENV: production
@@ -225,6 +224,7 @@ jobs:
           echo "y" | latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
           latest/bin/sdkmanager --licenses
         env:
+          ANDROID_HOME: /opt/android-sdk
           ANDROID_SDK_ROOT: /opt/android-sdk
 
       - name: Install npm dependencies
@@ -243,6 +243,7 @@ jobs:
 
       - name: Add Android platform
         run: |
+          export ANDROID_HOME=/opt/android-sdk
           export ANDROID_SDK_ROOT=/opt/android-sdk
           export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
           cd cordova-app
@@ -258,12 +259,14 @@ jobs:
 
       - name: Build Android APK
         run: |
+          export ANDROID_HOME=/opt/android-sdk
           export ANDROID_SDK_ROOT=/opt/android-sdk
           export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
           cd cordova-app
           cordova build android --release
         env:
           NODE_ENV: production
+          ANDROID_HOME: /opt/android-sdk
           ANDROID_SDK_ROOT: /opt/android-sdk
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
 
