@@ -3,8 +3,10 @@ name: Build and Deploy Chatly
 on:
   push:
     branches: [main, kilo/light-engine-1c5]
+    tags: [v*]
   pull_request:
     branches: [main, kilo/light-engine-1c5]
+  workflow_dispatch:
 
 jobs:
   test:
