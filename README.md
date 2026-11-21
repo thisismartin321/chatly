@@ -27,10 +27,6 @@ Chatly is a secure, real-time chat platform featuring multi-server support, voic
 - ✅ Server roles and permissions
 - ✅ Server events
 
-### Cross-Platform Apps
-- 🖥️ **Desktop**: Windows (.exe installer), Linux (.deb, .rpm, .AppImage)
-- 📱 **Mobile**: Android (.apk via Cordova)
-- 🌐 **Web**: Progressive Web App
 
 ### Security
 - ✅ End-to-end encryption (AES-256)
