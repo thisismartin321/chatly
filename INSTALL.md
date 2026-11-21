@@ -7,12 +7,14 @@ Chatly is a Discord-like chat platform with end-to-end encryption, multi-server 
 ## System Requirements
 
 ### Minimum Requirements
+
 - **Node.js**: 18.x or higher
 - **Memory**: 2 GB RAM (minimum), 4 GB RAM (recommended)
 - **Disk Space**: 1 GB for application files
 - **Operating Systems**: Linux, macOS, Windows 10+
 
 ### Recommended Requirements
+
 - **Node.js**: 18.x or higher (LTS version preferred)
 - **Memory**: 4 GB RAM or more
 - **Disk Space**: 2 GB for application files + database
@@ -24,10 +26,10 @@ Chatly is a Discord-like chat platform with end-to-end encryption, multi-server 
 
 ```bash
 # Clone the repository
-git clone https://github.com/chatly-premium/chatly-premium.git
+git clone https://github.com/chatly/chatly.git
 
 # Navigate to the project directory
-cd chatly-premium
+cd chatly
 ```
 
 ### 2. Install Dependencies
@@ -132,34 +134,6 @@ npm run build
 2. **API Documentation**: Visit `http://localhost:3000/api/docs` (if enabled)
 3. **Health Check**: Check `http://localhost:3000/api/health`
 
-### Desktop Applications
-
-The project includes desktop applications for Windows and Linux:
-
-```bash
-# Build desktop apps
-npm run build:desktop
-
-# Install desktop app
-npm run install:desktop
-```
-
-### Mobile Applications
-
-For Android and iOS development:
-
-```bash
-# Build Android app
-npm run build:android
-
-# Build iOS app (macOS required)
-npm run build:ios
-
-# Install mobile apps
-npm run install:android
-npm run install:ios
-```
-
 ## Configuration
 
 ### Server Configuration
@@ -167,50 +141,26 @@ npm run install:ios
 Edit the `.env` file to configure:
 
 #### Server Settings
+
 - `PORT`: Server port (default: 3000)
 - `NODE_ENV`: Environment mode (development/production)
 - `HOST`: Server hostname (default: localhost)
 
 #### Security Settings
+
 - `SESSION_SECRET`: Secret key for session management
 - `INVITE_CODE`: Invite code for user registration
 - `ENCRYPTION_KEY`: Encryption key for file encryption
 - `ENCRYPTION_IV`: Initialization vector for encryption
 
 #### Database Settings
+
 - `DB_PATH`: Path to SQLite database file
 
 #### Rate Limiting
+
 - `RATE_LIMIT_WINDOW_MS`: Rate limit window in milliseconds
 - `RATE_LIMIT_MAX_REQUESTS`: Maximum requests per window
-
-### Desktop App Configuration
-
-Desktop apps use configuration files in the user's home directory:
-
-#### Windows
-- Configuration: `%APPDATA%\Chatly Premium\config.json`
-- Data: `%APPDATA%\Chatly Premium\data`
-
-#### Linux
-- Configuration: `~/.config/Chatly Premium/config.json`
-- Data: `~/.local/share/Chatly Premium`
-
-#### macOS
-- Configuration: `~/Library/Application Support/Chatly Premium/config.json`
-- Data: `~/Library/Application Support/Chatly Premium`
-
-### Mobile App Configuration
-
-Mobile apps use device-specific configuration:
-
-#### Android
-- Configuration: `Android/data/com.chatly.premium/shared_prefs/config.xml`
-- Storage: Internal storage
-
-#### iOS
-- Configuration: `Library/Preferences/com.chatly.premium.plist`
-- Storage: iCloud Drive
 
 ## Docker Deployment
 
@@ -218,10 +168,10 @@ Mobile apps use device-specific configuration:
 
 ```bash
 # Build the Docker image
-docker build -t chatly-premium .
+docker build -t chatly .
 
 # Run the application
-docker run -p 3000:3000 --env-file .env chatly-premium
+docker run -p 3000:3000 --env-file .env chatly
 ```
 
 ### Docker Compose
@@ -232,7 +182,7 @@ Create a `docker-compose.yml` file:
 version: '3.8'
 
 services:
-  chatly-premium:
+  chatly:
     build: .
     ports:
       - "3000:3000"
@@ -263,19 +213,19 @@ docker-compose down
 npm install -g pm2
 
 # Start the application with PM2
-pm2 start src/server.js --name chatly-premium
+pm2 start src/server.js --name chatly
 
 # View PM2 logs
-pm2 logs chatly-premium
+pm2 logs chatly
 
 # Restart the application
-pm2 restart chatly-premium
+pm2 restart chatly
 
 # Stop the application
-pm2 stop chatly-premium
+pm2 stop chatly
 
 # Delete the application
-pm2 delete chatly-premium
+pm2 delete chatly
 ```
 
 ### Using systemd
@@ -284,13 +234,13 @@ Create a systemd service file:
 
 ```ini
 [Unit]
-Description=Chatly Premium Server
+Description=Chatly Server
 After=network.target
 
 [Service]
 Type=simple
 User=chatly
-WorkingDirectory=/path/to/chatly-premium
+WorkingDirectory=/path/to/chatly
 ExecStart=/usr/bin/npm start
 Environment=NODE_ENV=production
 Restart=on-failure
@@ -302,14 +252,14 @@ WantedBy=multi-user.target
 
 ```bash
 # Install the service
-sudo systemctl enable chatly-premium
-sudo systemctl start chatly-premium
+sudo systemctl enable chatly
+sudo systemctl start chatly
 
 # Check status
-sudo systemctl status chatly-premium
+sudo systemctl status chatly
 
 # View logs
-sudo journalctl -u chatly-premium -f
+sudo journalctl -u chatly -f
 ```
 
 ## Backup and Restore
@@ -322,8 +272,8 @@ mkdir -p backups
 cp chatly.db backups/chatly-$(date +%Y%m%d_%H%M%S).db
 
 # Backup configuration files
-cp .env ~/.config/ChatlyPremium/
-cp *.json ~/.config/ChatlyPremium/
+cp .env ~/.config/Chatly/
+cp *.json ~/.config/Chatly/
 ```
 
 ### Restore
@@ -333,8 +283,8 @@ cp *.json ~/.config/ChatlyPremium/
 cp backups/chatly-database-name.db chatly.db
 
 # Restore configuration files
-cp ~/.config/ChatlyPremium/.env .
-cp ~/.config/ChatlyPremium/*.json .
+cp ~/.config/Chatly/.env .
+cp ~/.config/Chatly/*.json .
 ```
 
 ## Troubleshooting
@@ -369,7 +319,15 @@ ping localhost
 iptables -L
 ```
 
-#### Database Issues
+### Database Issues
+
+```bash
+# Reinitialize the database
+rm -f chatly.db
+npm start
+```
+
+### Database Issues
 
 ```bash
 # Reinitialize the database
@@ -380,7 +338,7 @@ npm start
 ### Getting Help
 
 1. **Documentation**: Visit our documentation website
-2. **GitHub Issues**: Report issues at [GitHub Repository](https://github.com/chatly-premium/chatly-premium/issues)
+2. **GitHub Issues**: Report issues at [GitHub Repository](https://github.com/chatly/chatly/issues)
 3. **Community**: Join our Discord community
 4. **Support**: Contact support through the application
 
@@ -454,17 +412,20 @@ npm run type-check
 ## Resources
 
 ### Documentation
+
 - [API Documentation](https://docs.chatly.io)
 - [Developer Guide](https://dev.chatly.io)
 - [Architecture Overview](https://arch.chatly.io)
 
 ### Community
-- [GitHub Repository](https://github.com/chatly-premium/chatly-premium)
+
+- [GitHub Repository](https://github.com/chatly/chatly)
 - [Discord Community](https://discord.chatly.io)
 - [Twitter](https://twitter.com/chatlyapp)
 - [Reddit](https://reddit.com/r/chatly)
 
 ### Support
+
 - [Help Center](https://help.chatly.io)
 - [Contact Support](https://support.chatly.io)
 - [Status Page](https://status.chatly.io)
@@ -476,7 +437,7 @@ This project is licensed under the MIT License.
 ```
 MIT License
 
-Copyright (c) 2024 Chatly Premium Team
+Copyright (c) 2024 Chatly Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -499,7 +460,25 @@ SOFTWARE.
 
 ## Acknowledgments
 
-- Thanks to all contributors
-- Special thanks to the open source community
-- Thanks to users who reported issues and provided feedback
-- Acknowledgments to the Node.js and open source ecosystem
+We would like to thank:
+
+- **All contributors** for their contributions
+- **Open source community** for inspiring features
+- **Users** for their feedback and support
+- **Node.js**, **Express**, **Socket.IO**, and other dependencies
+
+## Thank You
+
+Thank you for choosing Chatly! We're excited to have you join our community.
+
+For the best experience, please:
+1. Use a modern web browser
+2. Keep your application updated
+3. Report any issues you encounter
+4. Provide feedback to help us improve
+
+Enjoy your chat experience with Chatly! 🎉
+
+---
+
+*Chatly - Secure. Fast. Feature-rich.*
