@@ -1,23 +1,21 @@
 {
-  "name": "chatly-mobile",
+  "name": "chatly",
   "version": "1.0.0",
   "private": true,
-  "description": "Chatly Mobile App - Discord-like Chat mit End-to-End-Verschlüsselung",
-  "main": "src/main.js",
+  "description": "Chatly - Discord-like Chat mit End-to-End-Verschlüsselung",
+  "main": "src/server.js",
+  "author": {
+    "name": "Chatly Team",
+    "email": "team@chatly.io",
+    "url": "https://github.com/thisismartin321/chatly"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tauri": "tauri",
-    "android": "cordova build android",
-    "ios": "cordova build ios",
-    "electron": "electron-builder",
-    "deb": "electron-builder --linux deb",
-    "rpm": "electron-builder --linux rpm",
-    "appimage": "electron-builder --linux AppImage",
-    "exe": "electron-builder --win",
     "test": "vitest"
   },
+  "engines": { "node": ">=24" },
   "dependencies": {
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
@@ -33,59 +31,8 @@
     "vite": "^5.0.0",
     "typescript": "^5.2.2",
     "vue-tsc": "^1.8.27",
-    "@tauri-apps/api": "^1.5.0",
-    "@tauri-apps/cli": "^1.5.9",
-    "electron": "^25.9.0",
-    "electron-builder": "^24.9.1",
-    "cordova": "^11.1.0",
     "vitest": "^0.34.6",
     "eslint": "^8.55.0",
     "prettier": "^3.1.0"
-  },
-  "build": {
-    "appId": "com.chatly.app",
-    "productName": "Chatly",
-    "copyright": "Copyright © 2024 Chatly Team",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "dist/**/*",
-      "src-electron/**/*"
-    ],
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": ["x64", "ia32"]
-        }
-      ],
-      "nsis": {
-        "oneClick": false,
-        "allowToChangeInstallationDirectory": true
-      }
-    },
-    "linux": {
-      "target": [
-        {
-          "target": "deb",
-          "arch": ["x64", "arm64"]
-        },
-        {
-          "target": "rpm",
-          "arch": ["x64", "arm64"]
-        },
-        {
-          "target": "AppImage",
-          "arch": ["x64", "arm64"]
-        }
-      ],
-      "maintainer": "Chatly Team",
-      "vendor": "Chatly Team"
-    },
-    "mac": {
-      "target": ["dmg", "zip"]
-    },
-    "publish": null
   }
 }

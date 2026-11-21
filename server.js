@@ -1065,7 +1065,7 @@ app.use((req, res) => {
 // Start server
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Chatly Premium server running on port ${PORT}`);
+  console.log(`Chatly server running on port ${PORT}`);
   console.log(`Server started at ${new Date().toISOString()}`);
 });
 

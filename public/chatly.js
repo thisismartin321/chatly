@@ -847,7 +847,7 @@ async function init() {
       connectWebSocket();
     }
 
-    console.log('Chatly Premium initialized successfully');
+    console.log('Chatly initialized successfully');
   } catch (error) {
     console.error('Failed to initialize Chatly:', error);
     utils.showNotification('Failed to initialize Chatly. Please refresh the page.', 'error');

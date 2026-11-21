@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="chatly-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5865f2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4752c4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Hintergrund -->
+  <rect width="1024" height="1024" rx="200" fill="url(#chatly-gradient)" />
+  <!-- Chat-Blasen -->
+  <path d="M 200 200 L 500 200 L 500 400 L 200 400 Z" fill="white" opacity="0.9" />
+  <path d="M 524 250 L 824 250 L 824 450 L 524 450 Z" fill="white" opacity="0.9" />
+  <path d="M 200 624 L 500 624 L 500 824 L 200 824 Z" fill="white" opacity="0.9" />
+  <path d="M 524 674 L 824 674 L 824 874 L 524 874 Z" fill="white" opacity="0.9" />
+  <!-- Chatly Text -->
+  <text x="512" y="512" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="url(#chatly-gradient)" text-anchor="middle">CHATLY</text>
+</svg>
