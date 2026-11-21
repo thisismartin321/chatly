@@ -1,17 +1,1 @@
-appId: com.chatly.app
-productName: Chatly
-copyright: Copyright © 2024 Chatly Team
-directories:
-  output: release
-  buildResources: resources
-files:
-  - dist/**
-  - src-electron/**
-extraMetadata:
-  main: src-electron/main.js
-  homepage: https://github.com/thisismartin321/chatly
-  repository: https://github.com/thisismartin321/chatly
-publish:
-  provider: github
-  owner: thisismartin321
-  repo: chatly
+# Not used - web-only application

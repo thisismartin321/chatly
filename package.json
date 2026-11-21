@@ -2,8 +2,8 @@
   "name": "chatly",
   "version": "1.0.0",
   "private": true,
-  "description": "Chatly - Secure Discord-like Chat Platform",
-  "main": "src-electron/main.js",
+  "description": "Chatly - Discord-like Chat mit End-to-End-Verschlüsselung",
+  "main": "src/server.js",
   "author": {
     "name": "Chatly Team",
     "email": "team@chatly.io",
@@ -13,7 +13,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "electron": "electron-builder"
+    "test": "vitest"
   },
   "engines": { "node": ">=24" },
   "dependencies": {
@@ -31,41 +31,8 @@
     "vite": "^5.0.0",
     "typescript": "^5.2.2",
     "vue-tsc": "^1.8.27",
-    "@tauri-apps/api": "^1.5.0",
-    "@tauri-apps/cli": "^1.5.9",
-    "electron": "latest",
-    "electron-builder": "^26.18.1",
-    "cordova": "^11.1.0",
     "vitest": "^0.34.6",
     "eslint": "^8.55.0",
     "prettier": "^3.1.0"
-  },
-  "build": {
-    "appId": "com.chatly.app",
-    "productName": "Chatly",
-    "copyright": "Copyright © 2024 Chatly Team",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "dist/**/*",
-      "src-electron/**/*",
-      "public/icon.svg"
-    ],
-    "linux": {
-      "target": ["deb", "rpm", "AppImage", "flatpak"],
-      "category": "Internet",
-      "maintainer": "Chatly Team",
-      "vendor": "Chatly Team",
-      "desktopName": "Chatly",
-      "synopsis": "Secure Discord-like Chat",
-      "description": "Secure Discord-like Chat Platform with End-to-End Encryption"
-    },
-    "win": {
-      "target": ["nsis"],
-      "arch": ["x64"]
-    },
-    "mac": null,
-    "publish": null
   }
 }
