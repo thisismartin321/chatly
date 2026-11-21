@@ -69,7 +69,7 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
-      - name: Install system dependencies for Electron (Ubuntu 26.04 compatible)
+      - name: Install system dependencies for Electron
         run: |
           echo "=== Installing system dependencies ==="
           sudo apt-get update
@@ -97,7 +97,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chatly-electron-linux
-          path: release/
+          path: |
+            release/*.deb
+            release/*.rpm
+            release/*.AppImage
+            release/*.flatpak
           if-no-files-found: ignore
 
   build-windows:
@@ -133,7 +137,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chatly-windows
-          path: release/
+          path: |
+            release/*.exe
+            release/*.exe.blockmap
           if-no-files-found: ignore
 
   build-linux-packages:
@@ -148,18 +154,12 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
-      - name: Install system dependencies (Ubuntu 26.04 compatible)
+      - name: Install system dependencies
         run: |
           echo "=== Installing system dependencies ==="
           sudo apt-get update
           sudo apt-get install -y build-essential libgtk-3-dev libnotify-dev libnss3 libxss1 libasound2t64 xvfb rpm flatpak flatpak-builder fuse3
           echo "=== System dependencies installed ==="
-
-      - name: Fix AppArmor for Flatpak bubblewrap on Ubuntu 24.04+
-        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-
-      - name: Add Flathub remote
-        run: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
       - name: Install npm dependencies
         run: |
@@ -206,7 +206,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chatly-linux-packages
-          path: release/
+          path: |
+            release/*.deb
+            release/*.rpm
+            release/*.AppImage
+            release/*.flatpak
           if-no-files-found: ignore
 
   build-android:

@@ -2,7 +2,7 @@
   "name": "chatly",
   "version": "1.0.0",
   "private": true,
-  "description": "Chatly Mobile App - Discord-like Chat mit End-to-End-Verschlüsselung",
+  "description": "Chatly - Secure Discord-like Chat Platform",
   "main": "src-electron/main.js",
   "author": {
     "name": "Chatly Team",
@@ -13,15 +13,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tauri": "tauri",
-    "android": "cordova build android",
-    "ios": "cordova build ios",
-    "electron": "electron-builder",
-    "deb": "electron-builder --linux deb",
-    "rpm": "electron-builder --linux rpm",
-    "appimage": "electron-builder --linux AppImage",
-    "exe": "electron-builder --win",
-    "test": "vitest"
+    "electron": "electron-builder"
   },
   "engines": { "node": ">=24" },
   "dependencies": {
@@ -47,5 +39,33 @@
     "vitest": "^0.34.6",
     "eslint": "^8.55.0",
     "prettier": "^3.1.0"
+  },
+  "build": {
+    "appId": "com.chatly.app",
+    "productName": "Chatly",
+    "copyright": "Copyright © 2024 Chatly Team",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "src-electron/**/*",
+      "public/icon.svg"
+    ],
+    "linux": {
+      "target": ["deb", "rpm", "AppImage", "flatpak"],
+      "category": "Internet",
+      "maintainer": "Chatly Team",
+      "vendor": "Chatly Team",
+      "desktopName": "Chatly",
+      "synopsis": "Secure Discord-like Chat",
+      "description": "Secure Discord-like Chat Platform with End-to-End Encryption"
+    },
+    "win": {
+      "target": ["nsis"],
+      "arch": ["x64"]
+    },
+    "mac": null,
+    "publish": null
   }
 }
